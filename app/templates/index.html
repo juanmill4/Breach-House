@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breach House</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="navigation">
+        <a href="{{ url_for('all_victims') }}" class="nav-link">View All Victims</a>
+        <a href="{{ url_for('groups') }}" class="nav-link">Groups</a>
+        <a href="{{ url_for('Breaches') }}" class="nav-link">Breaches</a>
+        <a href="{{ url_for('Leads') }}" class="nav-link">Leads</a>
+        <a href="{{ url_for('StealerPaquets') }}" class="nav-link">Stealer Paquets</a>
+        <a href="{{ url_for('Disclaimer') }}" class="nav-link">Disclaimer</a>
+    </div>
+    <div class="main-container">
+        <section class="wrapper">
+            <main class="row" style="background-color: gray">
+                <ul>
+                    <li class="title-column">Target</li>
+                    <li class="group-column">Group</li>
+                    <li class="discovered-column">Discovered</li>
+                    <li>   Country</li>
+                    <li class="link-column">Post</li>
+                </ul>
+            </main>
+
+            </main>
+
+            {% for item in data %}
+            <article class="row">
+                <ul>
+                    <li class="title-column">{{ item['post_title'] }}</li>
+                        <li class="group-column">
+                          <a href="{{ url_for('group_detail', group_name=item['group_name']) }}">
+                            {{ item['group_name'] }}
+                          </a>
+                        </li>
+                        <li class="discovered-column">{{ item['discovered'].strftime('%d/%m/%Y') }}</li>
+                        <li class="flag">{{ item['country'] }}</li>
+                        <li class="link-column"><a href="{{ item['post_url'] }}" target="_blank">Link</a></li>
+                      </ul>
+                <div class="more-content-container">
+                    <ul class="more-content">
+                        <li>{{ item['description'] }}</li>
+                    </ul>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+</html>

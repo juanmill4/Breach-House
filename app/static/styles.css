@@ -1,0 +1,227 @@
+/* Google fonts - Open Sans */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+/* body */
+body {
+  background: rgba(0, 0, 0, 0.9); /* Fondo negro con un 90% de opacidad */
+  font-family: "Open Sans", sans-serif; /* Usa la fuente Open Sans como principal */
+  color: rgba(255, 255, 255, 0.9); /* Texto blanco con 90% de opacidad para alta visibilidad */
+}
+
+
+/* Navigation container */
+.navigation {
+  width: 300px;
+  margin: 1px;
+  padding: 170px 20px;
+  background: rgba(24, 23, 23, 0.76);
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 1px;
+  left: 0px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Navigation links */
+.nav-link {
+  display: block; /* Hace que cada enlace se muestre en su propia línea */
+  margin: 15px 0; /* Espaciado entre los enlaces */
+  font-size: 20px;
+  text-decoration: none; /* Elimina el subrayado */
+  color: #2c8d3c; /* Color verde */
+  transition: color 0.2s ease-out; /* Transición suave de color */
+}
+
+.nav-link:hover {
+  color: #581b1b; /* Cambia el color a rojo oscuro al pasar el ratón */
+}
+
+/* links */
+a {
+  text-decoration: none; /* Sin subrayado */
+  color: #2c8d3c; /* Color verde para los enlaces */
+  transition: color 0.2s ease-out; /* Transición suave de color */
+}
+
+a:hover {
+  color: #581b1b; /* Color rojo oscuro para el efecto hover */
+}
+
+/* wrapper */
+.wrapper {
+  width: 60%; /* Ancho completo */
+  max-width: 1500px; /* Ancho máximo de 1000px */
+  margin: 136px 469px ; /* Margen: 20px arriba, 100px abajo, centrado horizontalmente */
+  padding: 0; /* Sin relleno */
+  background: rgba(255, 255, 255, 0.1); /* Fondo blanco con 10% de opacidad */
+  color: rgba(255, 255, 255, 0.9); /* Texto blanco con 90% de opacidad */
+  overflow: hidden; /* Oculta el contenido desbordado */
+  position: relative; /* Posicionamiento relativo */
+  border-radius: 9px;
+}
+
+/* lists */
+.row ul {
+  margin: 0; /* Sin margen */
+  padding: 0; /* Sin relleno */
+  display: flex; /* Utiliza flexbox para un mejor control del espacio */
+  justify-content: space-between; /* Espacia los elementos uniformemente */
+}
+
+.row ul li {
+  margin: 0; /* Sin margen */
+  font-size: 20px; /* Tamaño de fuente de 16px */
+  font-weight: normal; /* Peso de fuente normal */
+  list-style: none; /* Sin estilo de lista (sin viñetas) */
+  flex: 1; /* Flexibilidad de los elementos */
+  box-sizing: border-box; /* Incluye el relleno y el borde en el ancho total */
+  padding: 5px 8px; /* Relleno: 5px arriba/abajo, 10px izquierda/derecha */
+  word-wrap: break-word; /* Permite que las palabras largas se dividan */
+  text-align: center;
+}
+
+/* Aumentar tamaño de las banderas */
+.row ul li.flag {
+  font-size: 37px;
+  text-align: center;
+}
+
+/* title-column */
+.row ul li.title-column {
+  flex: 2; /* Ancho mayor para la columna title */
+  text-align: left;
+  margin: 5px;
+}
+
+.row ul li.group-column {
+  flex: 1; /* La columna del grupo será más ancha */
+}
+
+.row ul li.discovered-column {
+  flex: 1; /* La columna 'discovered' será ligeramente más ancha */
+}
+
+
+/* Enlaces dentro de las columnas */
+.row ul li a {
+  display: inline;
+}
+
+.row ul li a:hover {
+  color: #581b1b; /* Color al pasar el ratón por encima */
+}
+
+
+/* .row positioning */
+.row {
+  position: relative; /* Posicionamiento relativo */
+}
+
+/* Media queries for small screens */
+@media only screen and (max-width: 767px) and (min-width: 480px) {
+  .row ul li {
+    font-size: 13px; /* Tamaño de fuente reducido a 13px */
+    width: 20%; /* Ajusta este valor considerando el nuevo ancho de la primera columna */
+  }
+
+  .row ul li:first-child {
+    width: 40%; /* Ancho mayor para la primera columna en pantallas pequeñas */
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  .row ul li {
+    font-size: 13px; /* Tamaño de fuente reducido a 13px */
+    width: 33%; /* Ajusta este valor considerando el nuevo ancho de la primera columna */
+  }
+
+  .row ul li:first-child {
+    width: 50%; /* Ancho mayor para la primera columna en pantallas muy pequeñas */
+  }
+}
+
+/* .title padding */
+.title ul li {
+  padding: 15px 13px; /* Relleno de 15px arriba/abajo, 13px izquierda/derecha */
+  text-align: center;
+}
+
+/* .row padding */
+.row {
+  padding: 15px 0; /* Relleno de 20px arriba/abajo */
+  font-size: 17px; /* Tamaño de fuente 0 para evitar espacio entre elementos en línea */
+  position: relative; /* Posicionamiento relativo */
+  overflow: hidden; /* Oculta el contenido desbordado */
+  border-top: 3px solid rgba(0, 0, 0, 0.1); /* Borde superior con 10% de opacidad */
+  transition:  0.6s ease-out; /* Transición suave del fondo */
+}
+
+/* more-content container */
+.more-content-container {
+  max-height: 0; /* Altura máxima de 0 para ocultar el contenido inicialmente */
+  transition: max-height 0.6s ease-out, background-color 0.2s ease-out; /* Transición suave de altura y fondo */
+}
+
+/* Hover effect for showing more content */
+.row:hover {
+  background-color: rgba(14, 13, 13, 0.877); /* Fondo más oscuro al desplegarse */
+}
+
+/* Hover effect for showing more content */
+.row:hover .more-content-container {
+  max-height: 500px; /* Altura máxima de 500px para asegurar contenido visible */
+}
+
+/* .title padding */
+.title {
+  padding: 10px 0 5px 0; /* Relleno: 25px arriba, 5px abajo */
+  height: 45px; /* Altura de 45px */
+  font-size: 0; /* Tamaño de fuente 0 para evitar espacio entre elementos en línea */
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco con 10% de opacidad */
+  border-left: 3px solid rgba(255, 255, 255, 0.1); /* Borde izquierdo con 10% de opacidad */
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 767px) {
+  .title-hide {
+    display: none; /* Oculta el título en pantallas pequeñas */
+  }
+}
+
+/* more content */
+ul.more-content li {
+  position: relative; /* Posicionamiento relativo */
+  top: 13px; /* Desplazamiento hacia abajo de 22px */
+  font-size: 13px; /* Tamaño de fuente de 13px */
+  margin: 0; /* Sin margen */
+  padding: 19px 10px; /* Relleno: 10px arriba/abajo, 13px izquierda/derecha */
+  display: block; /* Display de bloque */
+  width: 80%; /* Ancho completo */
+  color: rgba(128, 128, 128, 0.9); /* Texto gris con 90% de opacidad */
+  overflow: visible; /* Desbordamiento visible */
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 767px) {
+  ul.more-content li {
+    font-size: 11px; /* Tamaño de fuente reducido a 11px */
+  }
+}
+
+/* small content */
+.small {
+  color: rgba(102, 102, 102, 0.9); /* Texto gris con 90% de opacidad */
+  font-size: 10px; /* Tamaño de fuente de 10px */
+  padding: 0 10px; /* Relleno: 0 arriba/abajo, 10px izquierda/derecha */
+  margin: 0; /* Sin margen */
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 767px) {
+  .small {
+    display: none; /* Oculta el contenido pequeño en pantallas pequeñas */
+  }
+}

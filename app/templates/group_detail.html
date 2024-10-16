@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }} - Details</title>
+</head>
+<body>
+    <h1>{{ group.name }}</h1>
+    <h2>Links:</h2>
+    <ul>
+        {% for location in group.locations %}
+        <li>{{ location['Source Links'] }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('groups') }}">Back to Groups</a>
+</body>
+</html>
