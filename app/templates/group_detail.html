@@ -2,17 +2,187 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ group.name }} - Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
 </head>
 <body>
-    <h1>{{ group.name }}</h1>
-    <h2>Links:</h2>
-    <ul>
-        {% for location in group.locations %}
-        <li>{{ location['Source Links'] }}</li>
+
+    <div class="navigation">
+        <div class="profile-section">
+            <img src="/static/logo.png" alt="Profile Image" class="profile-image">
+            <h3 class="user-name">Breach House</h3>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
+        <a href="{{ url_for('index') }}"class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="nav-link dropdown-toggle" id="ransomware-link"><i class="fas fa-shield-virus"></i> Ransomware</a>
+        <div class="submenu" id="ransomware-submenu">
+            <a href="{{ url_for('all_victims') }}"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Attacks</a>
+            <a href="{{ url_for('groups') }}" class="nav-link"><i class="fas fa-users"></i> Groups</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Breaches-link" ><i class="fas fa-database"></i> Breaches</a>
+        <div class="submenu" id="breaches-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Breaches</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Leads-link"><i class="fas fa-funnel-dollar"></i> Leads</a>
+        <div class="submenu" id="leads-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Leads</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Stelaer-link"><i class="fas fa-box-open"></i> Stealer Paquets</a>
+        <div class="submenu" id="stealer-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Logs</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-globe"></i> Countries</a>
+        <a href="{{ url_for('Disclaimer') }}" class="nav-link"><i class="fas fa-file-contract"></i> Disclaimer</a>
+        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-diagram-project"></i> Notable projets</a>
+    </div>
+
+    <section class="wrapper">
+        <h1 style="text-align: center;">{{ group.name }}</h1>
+
+        <h2>Links:</h2>
+        <ul>
+            {% for location in group.locations %}
+                <li>{{ location['Source Links'] }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Victims</h2>
+        <main class="row" style="background-color: gray">
+            <ul>
+                <li class="title-column">Target</li>
+                <li class="discovered-column">
+                    Discovered
+                    <!-- Botón para ordenar (puedes implementar la funcionalidad con JavaScript) -->
+                    <button class="filter-button" onclick="toggleSortOrder()">⮟</button>
+                </li>
+                <li class="country-column">
+                    Country
+                    <!-- Botón para desplegar filtro por país -->
+                    <button class="filter-button" onclick="toggleDropdown('country-dropdown')">⮟</button>
+                    <div id="country-dropdown" class="dropdown-content">
+                        {% for country in countries %}
+                            <a class="tagDropDown" href="#" onclick="filterByCountry('{{ country }}')">
+                                {{ get_country_name(country) }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </li>
+            </ul>
+        </main>
+
+        {% for item in data %}
+        <article class="row1">
+            <ul>
+                <li class="title-column">{{ item['name'] }}</li>
+                <li class="discovered-column">{{ item['discovered'].strftime('%d/%m/%Y') }}</li>
+                <li class="flag"> {{ (item['country_flag']) }}</li>
+            </ul>
+            <div class="more-content-container">
+                <ul class="more-content">
+                    <li>{{ item['description'] }}</li>
+                </ul>
+            </div>
+        </article>
         {% endfor %}
-    </ul>
-    <a href="{{ url_for('groups') }}">Back to Groups</a>
+    </section>
+
+<!-- Agrega tus scripts JavaScript aquí para manejar la funcionalidad de filtrado y ordenamiento -->
+<script>
+            // Función para mostrar/ocultar menús desplegables y cambiar el z-index
+    function toggleDropdown(id) {
+        // Cerrar otros dropdowns
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(dropdown) {
+            if (dropdown.id !== id) {
+                dropdown.classList.remove('show');
+                // Restablecer el z-index de los otros dropdowns
+                dropdown.style.zIndex = '';
+            }
+        });
+
+        // Alternar la clase 'show' en el dropdown seleccionado
+        var dropdown = document.getElementById(id);
+        if (dropdown) {
+            dropdown.classList.toggle('show');
+
+            // Si el dropdown tiene la clase 'show', cambia el z-index
+            if (dropdown.classList.contains('show')) {
+                dropdown.style.zIndex = 100;
+            } else {
+                // Restablecer el z-index cuando se oculta el dropdown
+                dropdown.style.zIndex = '';
+            }
+        }
+    }
+
+
+    function filterByCountry(country) {
+        event.preventDefault();
+        event.stopPropagation();
+        var url = new URL(window.location.href);
+        url.searchParams.set('country-filter', country);
+        window.location.href = url.toString();
+    }
+
+    function toggleSortOrder() {
+        var url = new URL(window.location.href);
+        var currentOrder = url.searchParams.get('discovered-order') || 'desc';
+        var newOrder = (currentOrder === 'asc') ? 'desc' : 'asc';
+        url.searchParams.set('discovered-order', newOrder);
+        window.location.href = url.toString();
+    }
+
+    // Cerrar dropdowns al hacer clic fuera de ellos
+    window.onclick = function(event) {
+        if (!event.target.matches('.filter-button') && !event.target.closest('.dropdown-content')) {
+            var dropdowns = document.getElementsByClassName('dropdown-content');
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+document.getElementById('ransomware-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Breaches-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Stelaer-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Leads-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+</script>
+
+
 </body>
 </html>

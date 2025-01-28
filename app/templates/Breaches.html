@@ -5,9 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breaches</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
 </head>
 <body>
-    <h1>Breaches</h1>
+
+    <div class="navigation">
+        <div class="profile-section">
+            <img src="/static/logo.png" alt="Profile Image" class="profile-image">
+            <h3 class="user-name">Breach House</h3>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
+        <a href="{{ url_for('index') }}"class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="nav-link dropdown-toggle" id="ransomware-link"><i class="fas fa-shield-virus"></i> Ransomware</a>
+        <div class="submenu" id="ransomware-submenu">
+            <a href="{{ url_for('all_victims') }}"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Attacks</a>
+            <a href="{{ url_for('groups') }}" class="nav-link"><i class="fas fa-users"></i> Groups</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Breaches-link" ><i class="fas fa-database"></i> Breaches</a>
+        <div class="submenu" id="breaches-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Breaches</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Leads-link"><i class="fas fa-funnel-dollar"></i> Leads</a>
+        <div class="submenu" id="leads-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Leads</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="#" class="nav-link dropdown-toggle" id="Stelaer-link"><i class="fas fa-box-open"></i> Stealer Paquets</a>
+        <div class="submenu" id="stealer-submenu">
+            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Logs</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
+            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
+        </div>
+        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-globe"></i> Countries</a>
+        <a href="{{ url_for('Disclaimer') }}" class="nav-link"><i class="fas fa-file-contract"></i> Disclaimer</a>
+        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-diagram-project"></i> Notable projets</a>
+    </div>
+    <div class="wrapper">
+    <h1 style="text-align: center;">Breaches</h1>
     <table>
         <thead>
             <tr>
@@ -17,5 +65,28 @@
         <tbody>
         </tbody>
     </table>
+    </div>
+
+<script>
+document.getElementById('ransomware-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Breaches-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Stelaer-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.getElementById('Leads-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+</script>
 </body>
 </html>
