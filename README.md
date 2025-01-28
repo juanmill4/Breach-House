@@ -17,9 +17,20 @@ The project is organized into two main components:
 - **Stealer Logs**: Detection and monitoring of stealer logs (malware logs that collect stolen data).
 - **Leads**: Gathering and presenting information on potential threat actors and relevant cybersecurity data.
 
+## How to Run
+
+To start the application, follow these steps:
+
+1. Navigate to the `/app/` directory in your terminal.
+2. Run the following command:
+   ```bash
+   python3 app.py
+3. Open your web browser and visit http://localhost:5000 to access the website.
+
+
 ## Inspiration
 
-The goal is to provide a robust and accessible tool that delivers real-time visibility into the growing ecosystem of ransomware leaks and other cybersecurity events.
+The goal is to provide a robust and accessible tool that delivers real-time visibility into the growing ecosystem of ransomware leaks, Breaches, Leads and Stealerlogs.
 
 ## Manifesto: An Open World is a Safer World
 
