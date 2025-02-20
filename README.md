@@ -22,8 +22,9 @@ The project is organized into two main components:
 To start the application, follow these steps:
 
 1. Navigate to the `/app/` directory in your terminal.
-2. Run the following command:
+2. Run the followings command:
    ```bash
+   pip3 install -r requirements.tx
    python3 app.py
 3. Open your web browser and visit http://localhost:5000 to access the website.
 
