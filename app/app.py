@@ -3,7 +3,6 @@ import json
 import threading
 import time
 import os
-import flag
 import math
 from datetime import datetime
 from flask import Flask, render_template, request
