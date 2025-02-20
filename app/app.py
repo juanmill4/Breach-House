@@ -480,7 +480,6 @@ def your_view_function():
 
 if __name__ == '__main__':
     # Start the data fetching in a separate thread
-    threading.Thread(target=schedule_data_fetching, daemon=True).start()
     #app.run(debug=True)
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=5000)
 
