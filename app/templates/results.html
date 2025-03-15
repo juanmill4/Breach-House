@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'header.html' %}
+<body>
+ {% include 'navbar.html' %}    
+    <h1>Search Results</h1>
+
+    <div class="search-controls">
+        <button id="sort-newest">Newest First</button>
+        <button id="sort-oldest">Oldest First</button>
+    </div>
+
+    {% if results %}
+        <div id="results-container">
+            {% for item in results %}
+                <div class="result" data-discovered="{{ item.discovered }}">
+                    <h2>{{ item.post_title }}</h2>
+                    <p><strong>Description:</strong> {{ item.description }}</p>
+                    <p><strong>Group:</strong> {{ item.group_name }}</p>
+                    <p><strong>Country:</strong> {{ get_country_name(item.country) }}</p>
+                    <p><strong>Discovered:</strong> {{ item.post_date_str }}</p>
+                    {% if item.get('post_url') %}
+                        <a href="{{ item['post_url'] }}" target="_blank">Link</a>
+                      {% else %}
+                        <a href="{{ url_for('group_detail', group_name=item['group_name']) }}">Link</a>
+                    {% endif %}
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No results found matching your query.</p>
+    {% endif %}
+
+</body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function sortResults(order) {
+                let results = document.querySelectorAll(".result");
+                let resultsArray = Array.from(results);
+
+                resultsArray.sort((a, b) => {
+                    let dateA = new Date(a.getAttribute("data-discovered"));
+                    let dateB = new Date(b.getAttribute("data-discovered"));
+                    return order === "desc" ? dateB - dateA : dateA - dateB;
+                });
+
+                let container = document.getElementById("results-container");
+                container.innerHTML = "";
+                resultsArray.forEach(result => container.appendChild(result));
+            }
+
+            document.getElementById("sort-newest").addEventListener("click", () => sortResults("desc"));
+            document.getElementById("sort-oldest").addEventListener("click", () => sortResults("asc"));
+        });
+
+
+    </script>
+
+
+
+</html>
+

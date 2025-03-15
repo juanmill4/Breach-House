@@ -1,91 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Groups</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-    <link rel="manifest" href="/static/site.webmanifest">
-</head>
+{% include 'header.html' %}
+<style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --accent: #4CAF50;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            border: 1px solid #3d3d3d;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .group-name {
+            color: var(--accent);
+            font-size: 1.4em;
+            margin: 0;
+        }
+
+        .target-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .target-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed #3d3d3d;
+        }
+
+        .target-item:last-child {
+            border-bottom: none;
+        }
+
+        .target-date {
+            font-size: 0.8em;
+            color: #888;
+            display: block;
+        }
+
+        .target-description {
+            font-size: 0.9em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .source-links {
+            margin-top: 15px;
+            font-size: 0.8em;
+        }
+
+        .source-link {
+            color: #4CAF50;
+            text-decoration: none;
+            word-break: break-all;
+        }
+    </style>
 <body>
-
-    <div class="navigation">
-        <div class="profile-section">
-            <img src="/static/logo.png" alt="Profile Image" class="profile-image">
-            <h3 class="user-name">Breach House</h3>
-        </div>
-
-        <div class="search-bar">
-            <input type="text" placeholder="Search..." class="search-input">
-            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
-        </div>
-
-        <a href="{{ url_for('index') }}"class="nav-link"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="nav-link dropdown-toggle" id="ransomware-link"><i class="fas fa-shield-virus"></i> Ransomware</a>
-        <div class="submenu" id="ransomware-submenu">
-            <a href="{{ url_for('all_victims') }}"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Attacks</a>
-            <a href="{{ url_for('groups') }}" class="nav-link"><i class="fas fa-users"></i> Groups</a>
-            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
-        </div>
-        <a href="#" class="nav-link dropdown-toggle" id="Breaches-link" ><i class="fas fa-database"></i> Breaches</a>
-        <div class="submenu" id="breaches-submenu">
-            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Breaches</a>
-            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
-            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
-        </div>
-        <a href="#" class="nav-link dropdown-toggle" id="Leads-link"><i class="fas fa-funnel-dollar"></i> Leads</a>
-        <div class="submenu" id="leads-submenu">
-            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Leads</a>
-            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
-            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
-        </div>
-        <a href="#" class="nav-link dropdown-toggle" id="Stelaer-link"><i class="fas fa-box-open"></i> Stealer Paquets</a>
-        <div class="submenu" id="stealer-submenu">
-            <a href="#"  class="nav-link"><i class="fas fa-skull-crossbones"></i>All Logs</a>
-            <a href="#" class="nav-link"><i class="fas fa-users"></i> Sources</a>
-            <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Stats</a>
-        </div>
-        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-globe"></i> Countries</a>
-        <a href="{{ url_for('Disclaimer') }}" class="nav-link"><i class="fas fa-file-contract"></i> Disclaimer</a>
-        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-diagram-project"></i> Notable projets</a>
-    </div>
-    <section class="wrapper">
-        <h1 style="text-align: center;">Groups </h1>
-        <table class="groups-table">
-            <tbody>
-                {% for group_name in groups|map(attribute='name')|sort %}
-                <tr>
-                    <td><a href="{{ url_for('group_detail', group_name=group_name) }}">{{ group_name }}</a></td>
-                </tr>
+{% include 'navbar.html' %}
+<section class="wrappergroup" style="margin-left: 220px;">
+    <h1 style="text-align: center;">Groups</h1>
+    
+<div class="container">
+        {% for group in groups|sort(attribute='name') %}
+        <div class="group-card">
+            <div class="group-header">
+                <h2 class="group-name">
+                    <a href="{{ url_for('group_detail', group_name=group.name) }}">{{ group.name }}</a>
+                </h2>
+                <span class="target-count">{{ group.targets|length }} targets</span>
+            </div>
+            
+            <ul class="target-list">
+                {% for target in group.targets|sort(attribute='discovered', reverse=True)|batch(2)|first %}
+                <li class="target-item">
+                    <span class="target-date">{{ target.discovered|datetimeformat('%Y-%m-%d') }}</span>
+                    <div class="target-name">{{ target.name }}</div>
+                    <div class="target-description">{{ target.description|truncate(100) }}</div>
+                </li>
                 {% endfor %}
-            </tbody>
-        </table>
-    </section>
+            </ul>
+
+            <div class="source-links">
+                {% for location in group.locations|batch(1)|first %}
+                <a href="{{ location['Source Links'] }}" class="source-link" target="_blank">
+                    {{ location['Source Links']|url_truncate(35) }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
 
-<script>
-document.getElementById('ransomware-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    this.classList.toggle('active');
-});
-
-document.getElementById('Breaches-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    this.classList.toggle('active');
-});
-
-document.getElementById('Stelaer-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    this.classList.toggle('active');
-});
-
-document.getElementById('Leads-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    this.classList.toggle('active');
-});
-</script>
 </body>
 </html>

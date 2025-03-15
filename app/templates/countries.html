@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+{% include 'header.html' %}
+<body>
+ {% include 'navbar.html' %}
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <div class="container">
+            <h1>Countries</h1>
+            
+            <div class="flags-grid" id="flags-container">
+
+            </div>
+        </div>      
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const flagsContainer = document.getElementById('flags-container');
+
+
+    try {
+        // 1) Cargar data.json
+        const response = await fetch('/static/data.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const attackData = await response.json();
+
+        // 2) Convertir el objeto en un array y ordenarlo por totalatacks de mayor a menor
+        const sortedCountries = Object.entries(attackData.values).sort((a, b) => b[1].totalatacks - a[1].totalatacks);
+
+        // 3) Recorrer cada país ordenado y generar tarjeta
+        sortedCountries.forEach(([code, values]) => {
+            // Crear el contenedor de la tarjeta
+            const card = document.createElement('div');
+            card.className = 'country-card';
+            card.setAttribute('data-country', code);
+
+            // Usar innerHTML para crear toda la estructura de la tarjeta
+            card.innerHTML = `
+                <div class="flags-grid" id="flags-container" onclick="window.location.href='/country/${code}'">
+                <div class="flag-container">
+                    <img src="${countryFlags[code] || ''}" alt="Bandera ${code}">
+                </div>
+                <div class="country-data">
+                    <div class="country-name">${values.country_name}</div>
+                    <div class="country-details">
+                        <p><strong>Total Atacks:</strong> ${values.totalatacks}</p>
+                        <p><strong>last 2 weeks atacks:</strong> ${values.lastweekatacks}</p>
+                    </div>
+                </div>
+                </div>
+
+            `;
+
+            // Añadir la tarjeta al contenedor principal
+            flagsContainer.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Error cargando data.json:', error);
+    }
+});
+</script>
+
+</body>
+</html>

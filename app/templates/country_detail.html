@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'header.html' %}
+<body>
+ {% include 'navbar.html' %}
+
+
+    <section class="wrapper">
+        <div class="flag-container" data-country="{{ country }}"></div>
+
+
+        <main class="row" style="background-color: gray">
+            <ul>
+                <li class="title-column">Target</li>
+
+
+                <li class="group-column">
+                    Source
+                    <button class="filter-button" onclick="toggleDropdown('group-dropdown')">⮟</button>
+                    <div id="group-dropdown" class="dropdown-content">
+                        {% set seen_groups = [] %}
+                        {% for item in data %}
+                            {% if item.group_name not in seen_groups %}
+                                <a class="tagDropDown" href="?group-filter={{ item.group_name }}">
+                                    {{ item.group_name }}
+                                </a>
+                                {% set _ = seen_groups.append(item.group_name) %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <li class="discovered-column">
+                    Discovered
+                    <!-- Botón para ordenar (puedes implementar la funcionalidad con JavaScript) -->
+                    <button class="filter-button" onclick="toggleSortOrder()">⮟</button>
+                </li>
+
+                <li class="link-column">Post</li>
+            </ul>
+        </main>
+
+        {% for item in data %}
+        <article class="row1">
+            <ul>
+                <li class="title-column">{{ item['post_title'] }}</li>
+                <li class="group-column">
+                    <a href="{{ url_for('group_detail', group_name=item['group_name']) }}">
+                        {{ item['group_name'] }}
+                    </a>
+                </li>
+                <li class="discovered-column">{{ item['discovered'].strftime('%d/%m/%Y') }}</li>
+                <li class="link-column">
+                  {% if item.get('post_url') %}
+                    <a href="{{ item['post_url'] }}" target="_blank">Link</a>
+                  {% else %}
+                    <a href="{{ url_for('group_detail', group_name=item['group_name']) }}">Link</a>
+                  {% endif %}
+                </li>
+            </ul>
+            <div class="more-content-container">
+                <ul class="more-content">
+                    <li>{{ item['description'] }}</li>
+                </ul>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+
+<!-- Agrega tus scripts JavaScript aquí para manejar la funcionalidad de filtrado y ordenamiento -->
+<script>
+// Función para mostrar/ocultar menús desplegables y cambiar el z-index
+function toggleDropdown(id) {
+    // Cerrar otros dropdowns
+    var dropdowns = document.querySelectorAll('.dropdown-content');
+    dropdowns.forEach(function(dropdown) {
+        if (dropdown.id !== id) {
+            dropdown.classList.remove('show');
+            // Restablecer el z-index de los otros dropdowns
+            dropdown.style.zIndex = '';
+        }
+    });
+
+    // Alternar la clase 'show' en el dropdown seleccionado
+    var dropdown = document.getElementById(id);
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+
+        // Si el dropdown tiene la clase 'show', cambia el z-index
+        if (dropdown.classList.contains('show')) {
+            dropdown.style.zIndex = 100;
+        } else {
+            // Restablecer el z-index cuando se oculta el dropdown
+            dropdown.style.zIndex = '';
+        }
+    }
+}
+
+
+function filterByGroup(group) {
+    event.preventDefault();
+    event.stopPropagation();
+    var url = new URL(window.location.href);
+    url.searchParams.set('group-filter', group);
+    window.location.href = url.toString();
+}
+
+function toggleSortOrder() {
+    var url = new URL(window.location.href);
+    var currentOrder = url.searchParams.get('discovered-order') || 'desc';
+    var newOrder = (currentOrder === 'asc') ? 'desc' : 'asc';
+    url.searchParams.set('discovered-order', newOrder);
+    window.location.href = url.toString();
+}
+
+// Cerrar dropdowns al hacer clic fuera de ellos
+window.onclick = function(event) {
+    if (!event.target.matches('.filter-button') && !event.target.closest('.dropdown-content')) {
+        var dropdowns = document.getElementsByClassName('dropdown-content');
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Obtén todos los contenedores de banderas
+    const flagContainers = document.querySelectorAll('.flag-container');
+
+    flagContainers.forEach(container => {
+        // Obtener el código de país desde el atributo data-country
+        const countryCode = container.getAttribute('data-country');
+
+        if (countryCode && countryFlags[countryCode]) {
+            // Crear la imagen de la bandera
+            const img = document.createElement("img");
+            img.src = countryFlags[countryCode];
+            img.alt = `Bandera ${countryCode}`;
+            img.style.width = "200px"; // Ajusta el tamaño de la bandera
+            img.style.height = "auto";
+
+            // Limpiar el contenedor y agregar la imagen
+            container.innerHTML = "";
+            container.appendChild(img);
+        }
+    });
+});
+
+
+
+</script>
+
+
+</body>
+</html>
+    
