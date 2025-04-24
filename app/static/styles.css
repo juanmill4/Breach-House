@@ -805,6 +805,7 @@ h1 {
         
         /* Estilos para el contenido principal */
         .main-content {
+            top: 100vh;
             flex: 1;
             margin-left: 250px;
             padding: 20px;
